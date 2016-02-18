@@ -173,6 +173,31 @@ pre {
 }
 
 
+/**
+ * Title image wrapper
+ */
+.title_wrapper {
+    width: 100%;
+	min-width: $content-width;
+    margin: 0pt;
+    padding: 0pt;
+}
+
+
+/**
+ * Title image
+ */
+.title_img {
+    width: 100%;
+    padding: 0pt;
+}
+
+/**
+ * Floating text images
+ */
+img[alt=img_fr] { float: right; margin:  0pt 10pt 10pt; }
+img[alt=img_fl] { float: left;  margin: 10pt 10pt 10pt 0pt; }
+
 
 /**
  * Clearfix
