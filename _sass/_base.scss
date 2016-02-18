@@ -200,6 +200,14 @@ img[alt=img_fl] { float: left;  margin: 10pt 10pt 10pt 0pt; }
 
 
 /**
+ * Code blocks
+ */
+pre { -moz-tab-size: $tab_size; } /* Code for Firefox */
+pre { -o-tab-size:   $tab_size; } /* Code for Opera 10.6-12.1 */
+pre { tab-size:      $tab_size; }
+
+
+/**
  * Clearfix
  */
 %clearfix {
