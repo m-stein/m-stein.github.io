@@ -129,7 +129,15 @@ blockquote {
  */
 pre,
 code {
-    font-size: 15px;
+
+    -moz-hyphens:    none;
+    -o-hyphens:      none;
+    -webkit-hyphens: none;
+    -ms-hyphens:     none;
+    hyphens:         none;
+
+    font-size: #{$base-font-size}/#{$base-line-height};
+    font-family: $code-font-family;
     border: 1px solid $grey-color-light;
     border-radius: 3px;
     background-color: #eef;
