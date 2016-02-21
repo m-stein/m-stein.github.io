@@ -200,6 +200,7 @@
 }
 
 .post-title {
+    margin-left: -2px;
     font-size: 42px;
     letter-spacing: -1px;
     line-height: 1;
@@ -211,6 +212,14 @@
 
 .post-content {
     margin-bottom: $spacing-unit;
+
+    -moz-hyphens:    auto;
+    -o-hyphens:      auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens:     auto;
+    hyphens:         auto;
+
+    text-align: justify;
 
     h2 {
         font-size: 32px;

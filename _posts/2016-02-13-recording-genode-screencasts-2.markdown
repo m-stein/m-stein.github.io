@@ -1,8 +1,8 @@
 ---
 layout: post
 title:  "Recording Genode screencasts #2"
-date:   2016-02-13 22:12:30 +0100
-author: martin
+date:   2016-02-13
+author: Martin
 categories: genode screencast avconv
 ---
 
@@ -20,12 +20,13 @@ integrating custom file-system back-ends. An attractive opportunity.
 
 But before this, I had to build *avconv* with *fbdev* support – meaning with
 the *avdevice* library – first . This can be achieved by adapting the
-`libav/config.*` files in the Genode sources. I configured *avdevice* in a way
-that it merely brings *fbdev* support. This way, the external dependencies were
-kept at a minimum. Then, as a starting point for my VFS back-end, I created a
-copy of the `vfs/log_file_system.h` header named `vfs/lxfb_file_system.h`. I
-stripped it down to the mere declarations and added some statements in
-`vfs/file_system_factory.cc` to make my new LXFB file-system known to the VFS
+`libav / config.*` files in the Genode sources. I configured *avdevice* in a
+way that it merely brings *fbdev* support. This way, the external dependencies
+were kept at a minimum. Then, as a starting point for my VFS back-end, I
+created a copy of the
+`vfs / log_file_system.h` header named `vfs / lxfb_file_system.h`. I stripped
+it down to the mere declarations and added some statements in
+`vfs / file_system_factory.cc` to make my new LXFB file-system known to the VFS
 plugin. After that, I added an LXFB file to my `avconv.run` that uses the back
 end:
 
@@ -71,24 +72,24 @@ struct fb_fix_screeninfo { /* some integers */ };
 Now the setup compiled and I got a nice error about an unsupported IOCTL beeing
 issued on the LXFB file.
 
-To implement the requested IOCTLs, I overwrote the `ioctl(...)` method in my
-`Vfs::Lxfb_file_system` class. For the time being, I merely returned some
+To implement the requested IOCTLs, I overwrote the *ioctl* method in my
+`Vfs:: Lxfb_file_system` class. For the time being, I merely returned some
 hard-coded Screeninfo that I took from a dump of my self-built Linux *avconv*.
 This prototype then had to be connected to the VFS IOCTL mechanism through some
-additions in `libc/vfs_plugin.cc`. Now, *avconv* received the hard-coded
+additions in `libc / vfs_plugin.cc`. Now, *avconv* received the hard-coded
 Screeninfo and tried a first read request. But as my read implementation
 returned an error by then, the program ended up in a failing *mmap* attempt
 that seemed to be some kind of fall-back strategy.
 
 As a next step, I wanted to add some real input to my scenario. I found that
-the `libports/run/eglgears.run` demo might provide a good setup. It’s small and
-creates dynamic frame-buffer output. So, I integrated the essentials of that
-setup into my `avconv.run` script. Next, I placed the frame-buffer interception
-component, that I wrote last week, in front of the Framebuffer driver to
-multiplex the Framebuffer service between Nitpicker and *avconv*.
+the `libports / run / eglgears.run` demo might provide a good setup. It’s small
+and creates dynamic frame-buffer output. So, I integrated the essentials of
+that setup into my `avconv.run` script. Next, I placed the frame-buffer
+interception component, that I wrote last week, in front of the Framebuffer
+driver to multiplex the Framebuffer service between Nitpicker and *avconv*.
 
 After that, I was able to read the real Screeninfo in my *avconv* IOCTLs by
-using the `mode()` method of the Framebuffer session. At this point, the
+using the *mode* method of the Framebuffer session. At this point, the
 *avconv* surprisingly complained about an unsupported pixel format. It turned
 out that, in contrast to the *libav* main-line version, the version used by
 Genode didn’t support the RGB565 format for *fbdev* input. Genodes Framebuffer
@@ -98,8 +99,9 @@ yet.
 Fortunately, fixing this problem was easier than thought. I could extract the
 commit for RGB565 support from the git history of my Linux *libav* repository
 and it worked out of the box. By the way, I added all *libav* patches that I
-created during my screencast work to the `PATCHES` variable in the `libav.port`
-file. This way, they get applied automatically when doing `prepare_port libav`.
+created during my screencast work to the PATCHES variable in the `libav.port`
+file. This way, they get applied automatically when doing
+`tool / prepare_port`<wbr>`libav`.
 
 Now, I implemented the missing read operation. Requesting the Framebuffer
 Dataspace through the Framebuffer session, attaching it locally, then applying
@@ -115,22 +117,22 @@ into my scenario. Then I replaced the media-file input of *avplay* with the
 *ram_fs* file that *avconv* creates as ouput…
 
 ~~~
- <start name="avplay">
-    <config>
-       ...
-       <arg value="ram/mediafile.avi"/>
-       <libc stdout="/dev/log" stderr="/dev/log">
-          <vfs>
-             <dir name="ram"> <fs label="ram" /> </dir>
-             ...
-          </vfs>
-       </libc>
-    </config>
-    ...
- </start>
+<start name="avplay">
+	<config>
+		...
+		<arg value="ram/mediafile.avi"/>
+		<libc stdout="/dev/log" stderr="/dev/log">
+			<vfs>
+				<dir name="ram"> <fs label="ram" /> </dir>
+				...
+			</vfs>
+		</libc>
+	</config>
+	...
+</start>
 ~~~
 
 … and gave it a try. Indeed, *avplay* was able to read the file! Well, but
-immediately it complained like `ram/mediafile.avi: Invalid data found when
-processing input` and showed me a black screen. But I’m sure that this can be
-fixed too… next week!
+immediately it complained like
+`ram / mediafile.avi:`<wbr>`Invalid`<wbr>`data`<wbr>`found`<wbr>`when`<wbr>`processing`<wbr>`input` and showed me a
+black screen. But I’m sure that this can be fixed too… next week!

@@ -136,17 +136,26 @@ code {
 }
 
 code {
-    padding: 1px 5px;
+    padding: 1px $base-font-size / 4;
+
+    white-space: pre-wrap;       /* CSS 3 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+
+    word-spacing: -$base-font-size / 1.9;
 }
 
 pre {
-    padding: 8px 12px;
+    padding: $base-font-size / 3 $base-font-size;
     overflow-x: auto;
 
     > code {
         border: 0;
         padding-right: 0;
         padding-left: 0;
+        word-spacing: 0;
     }
 }
 
@@ -160,6 +169,7 @@ pre {
     max-width:         calc(#{$content-width} - (#{$spacing-unit} * 2));
     margin-right: auto;
     margin-left: auto;
+    padding-top: $spacing-unit * 2;
     padding-right: $spacing-unit;
     padding-left: $spacing-unit;
     @extend %clearfix;
