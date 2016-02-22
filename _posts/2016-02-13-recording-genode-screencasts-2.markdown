@@ -101,7 +101,7 @@ commit for RGB565 support from the git history of my Linux *libav* repository
 and it worked out of the box. By the way, I added all *libav* patches that I
 created during my screencast work to the PATCHES variable in the `libav.port`
 file. This way, they get applied automatically when doing
-`tool / prepare_port`<wbr>`libav`.
+`tool / prepare_port``libav`.
 
 Now, I implemented the missing read operation. Requesting the Framebuffer
 Dataspace through the Framebuffer session, attaching it locally, then applying

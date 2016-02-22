@@ -1,3 +1,7 @@
+
+@charset "utf-8";
+
+
 /**
  * Reset some basic elements
  */
@@ -137,7 +141,7 @@ code {
     hyphens:         none;
 
     font-size: #{$base-font-size}/#{$base-line-height};
-    font-family: $code-font-family;
+    font-family: $mono-font-family;
     border: 1px solid $grey-color-light;
     border-radius: 3px;
     background-color: #eef;
@@ -177,7 +181,7 @@ pre {
     max-width:         calc(#{$content-width} - (#{$spacing-unit} * 2));
     margin-right: auto;
     margin-left: auto;
-    padding-top: $spacing-unit * 2;
+    padding-top: $spacing-unit * 3;
     padding-right: $spacing-unit;
     padding-left: $spacing-unit;
     @extend %clearfix;

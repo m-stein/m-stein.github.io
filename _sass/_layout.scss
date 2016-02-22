@@ -4,6 +4,7 @@
 .site-header {
     // Positioning context for the mobile navigation icon
     position: relative;
+    border-top: solid 5px $grey-color-dark;
 }
 
 .site-title {
@@ -13,6 +14,7 @@
     letter-spacing: -1px;
     margin-bottom: 0;
     float: left;
+
 
     &,
     &:visited {
@@ -219,7 +221,7 @@
     -ms-hyphens:     auto;
     hyphens:         auto;
 
-    text-align: justify;
+    text-align: left;
 
     h2 {
         font-size: 32px;
