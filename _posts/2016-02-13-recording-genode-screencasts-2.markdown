@@ -53,7 +53,7 @@ end:
 Compiling this setup, I figured out that *avconv*, beside the read and write
 operations, also required two IOCTLs to read the configuration of the frame
 buffer, the so called Screeninfo. Therefore, it asked for a header that
-declares the corresponding data structures and IOCTL IDs. Naive as I am, I
+declares the corresponding data structures and IOCTL names. Naive as I am, I
 tried to import an appropriate header from my Linux. I quickly realized, that
 this is a bad idea. Like opening the Pandora’s box of dependencies. So,
 instead, I created my own header and took from Linux only what is necessary for
@@ -136,3 +136,5 @@ into my scenario. Then I replaced the media-file input of *avplay* with the
 immediately it complained like
 `ram / mediafile.avi:`<wbr>`Invalid`<wbr>`data`<wbr>`found`<wbr>`when`<wbr>`processing`<wbr>`input` and showed me a
 black screen. But I’m sure that this can be fixed too… next week!
+
+{% include abbreviations.markdown %}

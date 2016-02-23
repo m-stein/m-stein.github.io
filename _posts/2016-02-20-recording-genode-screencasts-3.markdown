@@ -12,7 +12,7 @@ a CPU load monitor and the GNU-software runtime of Genode called Noux.
 
 {% include youtube.html id=QeBvog_ZoXM %}
 
-The window that is initially focussed is the CGI monitor of Genode with which I
+The window that is initially focussed is the CLI monitor of Genode with which I
 started all the other subsystems by command. Next the focus switches to the
 Noux subsystem. It's running 'tail -f' on the system log file and thereby shows
 also the log output of the screencast subsystem. The CPU load monitor at the
@@ -122,10 +122,10 @@ restricted avconv to the second one:
 ~~~
 
 The last thing was to pack my screencast into a subsystem that can be started
-dynamically through Genodes CGI monitor. The session routing rules for *avconv*
-had the be moved to the CGI monitor and selected through their labels. I also
-added a rule that routes the LOG output to a server component named *log*. This
-component gathers most of the LOG output of my Turmvilla scenario and writes it
+dynamically through Genodes CLI monitor. The session routing rules for *avconv*
+had the be moved to the CLI monitor and selected through their labels. I also
+added a rule that routes the log output to a server component named *log*. This
+component gathers most of the log output of my Turmvilla scenario and writes it
 to a file.
 
 ~~~
@@ -169,12 +169,12 @@ subsystem.
 </subsystem>
 ~~~
 
-Now I can issue `start`<wbr>`screencast` in the CGI monitor and as intended, the LOG
-output shows *avconv* starting and the CPU load monitor gives evidence that it
-is running on the 3rd of my four cores. Currently, with one of my Intel-i5
-cores and a resolution of XXX x XXX, I'm reaching around 25 FPS. The next
+Now I can issue `start`<wbr>`screencast` in the CLI monitor and as intended, the
+log output shows *avconv* starting and the CPU load monitor gives evidence that
+it is running on the 3rd of my four cores. Currently, with one of my Intel-i5
+cores and a resolution of 1280x800, I'm reaching around 25 FPS. The next
 issues on my road map are clean dynamic termination of *avconv* (currently I'm
 merely using the `-t` parameter) and support for audio recording using the
 `Audio_in` session of the audio driver.
 
-[abbrevation list]
+{% include abbreviations.markdown %}
