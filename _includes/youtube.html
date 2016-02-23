@@ -1,1 +1,10 @@
-<iframe width="{{ include.w }}" height="{{ include.h }}" src="https://www.youtube.com/embed/{{ include.id }}" frameborder="0" allowfullscreen></iframe>
+<p>
+<iframe class="video_16_10"
+        {% if include.w and include.h %}
+           style="width: {{ include.w }}px; height: {{ include.h }}px"
+        {% endif %}
+        src="https://www.youtube.com/embed/{{ include.id }}"
+        frameborder="0"
+        webkitallowfullscreen mozallowfullscreen allowfullscreen>
+</iframe>
+</p>

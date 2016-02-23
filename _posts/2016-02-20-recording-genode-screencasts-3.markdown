@@ -6,12 +6,21 @@ author: Martin
 categories: genode screencast avconv
 ---
 
-It's alive! Thursday I was able to record a smooth screencast of my Genode
-desktop setup on a Lenovo X201. One minute of video showing Genode while
-running Linux in VirtualBox, a CPU load monitor and the GNU-software runtime
-Noux:
+It's alive! Thursday I was able to record the first real screencast with my
+Genode screencast subsystem. It shows Genode running Linux in a VirtualBox VM,
+a CPU load monitor and the GNU-software runtime of Genode called Noux.
 
-{% include youtube.html id=QeBvog_ZoXM w=420 h=315 %}
+{% include youtube.html id=QeBvog_ZoXM %}
+
+The window that is initially focussed is the CGI monitor of Genode with which I
+started all the other subsystems by command. Next the focus switches to the
+Noux subsystem. It's running 'tail -f' on the system log file and thereby shows
+also the log output of the screencast subsystem. The CPU load monitor at the
+left side shows that the screencast, as configured, is recorded using the 3rd
+core while the other Genode components run at the primary core. The screencast
+output is stored in a folder that gets shared with the virtual machine Linux.
+In Linux, the folder is mounted and shows the output file. Capturing audio
+also is not supported yet.
 
 There were two major problems I had to solve this time. First, I had to find a
 way of validating the *avconv* output and second, I wanted to switch from the

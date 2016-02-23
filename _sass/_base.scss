@@ -175,6 +175,12 @@ pre {
     }
 }
 
+iframe.video_16_10 {
+    width: -webkit-calc(#{$content-width} - (#{$spacing-unit} * 2));
+    width:         calc(#{$content-width} - (#{$spacing-unit} * 2));
+    height: -webkit-calc(((#{$content-width} - (#{$spacing-unit} * 2)) * 10) / 16);
+    height:         calc(((#{$content-width} - (#{$spacing-unit} * 2)) * 10) / 16);
+}
 
 
 /**
