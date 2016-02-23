@@ -140,6 +140,10 @@ code {
     -ms-hyphens:     none;
     hyphens:         none;
 
+	-moz-tab-size: $tab_size; /* Firefox */
+	-o-tab-size:   $tab_size; /* Opera 10.6-12.1 */
+	tab-size:      $tab_size;
+
     font-size: #{$base-font-size}/#{$base-line-height};
     font-family: $mono-font-family;
     border: 1px solid $grey-color-light;
@@ -219,14 +223,6 @@ pre {
  */
 img[alt=img_fr] { float: right; margin:  0pt 10pt 10pt; }
 img[alt=img_fl] { float: left;  margin: 10pt 10pt 10pt 0pt; }
-
-
-/**
- * Code blocks
- */
-pre { -moz-tab-size: $tab_size; } /* Code for Firefox */
-pre { -o-tab-size:   $tab_size; } /* Code for Opera 10.6-12.1 */
-pre { tab-size:      $tab_size; }
 
 
 /**

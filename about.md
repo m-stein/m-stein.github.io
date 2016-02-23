@@ -4,12 +4,10 @@ title: About
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](http://jekyllrb.com/)
+![img_fl](/img/avatar.png "It's me!")
 
-You can find the source code for the Jekyll new theme at:
-{% include icon-github.html username="jglovier" %} /
-[jekyll-new](https://github.com/jglovier/jekyll-new)
-
-You can find the source code for Jekyll at
-{% include icon-github.html username="jekyll" %} /
-[jekyll](https://github.com/jekyll/jekyll)
+Studied computer sience at the Technische Universität Ilmenau, Germany. Since
+2010 involved in the development of the Genode OS Framework with focus on the
+custom kernel in the base-hw repository, from-scratch drivers for ARM hardware,
+and fundamental features such as Genode's MMIO framework. Other interests are
+sport climbing, Aikido, hiking, bicycling, and classic literature.

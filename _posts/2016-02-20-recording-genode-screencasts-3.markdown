@@ -7,34 +7,32 @@ categories: genode screencast avconv
 ---
 
 It's alive! Thursday I was able to record a smooth screencast of my Genode
-desktop setup on a Lenovo X201. One minute with 20 FPS showing Genode while
+desktop setup on a Lenovo X201. One minute of video showing Genode while
 running Linux in VirtualBox, a CPU load monitor and the GNU-software runtime
 Noux:
 
-[embedded video]
+{% include youtube.html id=QeBvog_ZoXM w=420 h=315 %}
 
 There were two major problems I had to solve this time. First, I had to find a
 way of validating the *avconv* output and second, I wanted to switch from the
-current Qemu *eglgears* scenario, that was pretty slow and not so awesome, to
-the more real-world-ish Desktop scenario mentioned above.
+current Qemu *eglgears* scenario, that was pretty slow and not that
+sophisticated, to the more real-world-ish Desktop scenario mentioned above.
 
 To get me a picture of the *avconv* output, I replaced the RAM file system as
 output destination by an Ext2 file system on a persistent storage. This wasn't
 a big deal. All I had to do was re-routing the corresponding session request of
 the Libc VFS plugin in the *avconv* component to a new instance of the ported
-Rump file-system server. The session interface remains the same. Then I added
-an instance of the AHCI driver as server for the Block session that the Rump FS
-server takes as input:
+Rump file-system server. The used session interface remains the same. Then I
+added an instance of the AHCI driver as server for the Block session that the
+Rump FS server takes as input:
 
 ~~~
-...
 <start name="ahci_drv">
 	<config ata="yes">
 		<policy label="rump_fs" device="0"/>
 	</config>
 	...
 </start>
-
 <start name="rump_fs">
 	<config fs="ext2fs">
 		<policy label="avconv -> rump_fs" root="/" writeable="yes"/>
@@ -45,7 +43,6 @@ server takes as input:
 	</route>
 	...
 </start>
-
 <start name="avconv">
 	<config>
 		...
@@ -63,7 +60,6 @@ server takes as input:
 	</route>
 	...
 </start>
-...
 ~~~
 
 After that, I could mount the underlying medium on my host system when the
@@ -82,12 +78,94 @@ normally would bring a rat tail of problems when actually mapping the backing
 store in *mmap*, Genode returns a mere copy of the content instead. This
 explained why the frame buffer appeared static to *avconv*.
 
-So, lets make *avconv* happy by creating a specific *mmap* implementation. In
+So, let's make *avconv* happy by creating a proper *mmap* implementation. In
 this specific use case were *mmap* can map the Dataspace to an arbitrary
 address without special requirements it should be fine. The default
 implementation of the Libc VFS *mmap* is located in `libc / vfs_plugin.cc`. As
 I wanted to re-use some stuff of the default implementation and also some Libc
-stuff, I wanted to stay in `libc / vfs_plugin.cc` with my new code. Thus, I
-modified the default *mmap* so the concrete file system is merely asked for
-which flavour to use and in case of the "direct mapping" flavor also for the
-targeted Dataspace.
+stuff, I wanted to stay in `libc / vfs_plugin.cc` with my implementation. Thus,
+I modified the default *mmap* in a way that it asks the file system which
+flavour to use and in case of the "direct mapping" flavor also for the targeted
+Dataspace.
+
+With the new *mmap* in place, my video started becoming a video. A second frame
+showed up and a third! For someone with very slow reactions this could already
+be an action movie. The bottleneck was obvious as I still recorded
+software-rendered 3D in Qemu. So, now was the time for my Desktop Genode, the
+so-called Turmvilla scenario. Moving my components and configuration to
+Turmvilla was a little bit more tricky than I thought. First, the Intel FB
+driver had a problem with my FB interception component. A friend gave me a good
+hint to use the VESA driver instead and it worked indeed. For now I can live
+with the smaller feature set of this driver but if I ever feel the desire to
+record multiple screens, I have to fix that.
+
+Second, I wanted *avconv* to run on a dedicated CPU to assure a constant frame
+rate even when recording a scenario with heavy work load. This worked out of
+the box. I splitted the affinity space of *init* in two sub spaces and
+restricted avconv to the second one:
+
+~~~
+<affinity-space width="2" />
+<start name="avconv">
+	<affinity xpos="1" width="1" />
+	...
+</start>
+~~~
+
+The last thing was to pack my screencast into a subsystem that can be started
+dynamically through Genodes CGI monitor. The session routing rules for *avconv*
+had the be moved to the CGI monitor and selected through their labels. I also
+added a rule that routes the LOG output to a server component named *log*. This
+component gathers most of the LOG output of my Turmvilla scenario and writes it
+to a file.
+
+~~~
+<start name="cli_monitor">
+	<route>
+		<service name="File_system" label="screencast -> avconv -> rump_fs">
+			<child name="rump_fs"/>
+		</service>
+		<service name="Framebuffer" label="screencast -> avconv">
+			<child name="fb_intercept"/>
+		</service>
+		<service name="LOG" label="screencast -> avconv">
+			<child name="log"/>
+		</service>
+		...
+	</route>
+	...
+</start>
+~~~
+
+The new `subsystems / screencast.subsystem` file starts a new *init* instance
+for *avconv*. This enables me to apply my affinity configuration to this single
+subsystem.
+
+~~~
+<subsystem name="screencast" help="Record frame buffer">
+	<binary name="init"/>
+	<config>
+		<parent-provides>
+			<service name="File_system"/>
+			<service name="Framebuffer"/>
+			...
+		</parent-provides>
+		<affinity-space width="2" />
+		...
+		<start name="avconv">
+			<affinity xpos="1" width="1" />
+			...
+		</start>
+	</config>
+</subsystem>
+~~~
+
+Now I can issue `start`<wbr>`screencast` in the CGI monitor and as intended, the LOG
+output shows *avconv* starting and the CPU load monitor gives evidence that it
+is running on the 3rd of my four cores. Currently, with one of my Intel-i5
+cores and a resolution of XXX x XXX, I'm reaching around 25 FPS. The next
+issues on my road map are clean dynamic termination of *avconv* (currently I'm
+merely using the `-t` parameter) and support for audio recording using the
+`Audio_in` session of the audio driver.
+
+[abbrevation list]
