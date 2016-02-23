@@ -10,7 +10,7 @@ It's alive! Thursday I was able to record the first real screencast with my
 Genode screencast subsystem. It shows Genode running Linux in a VirtualBox VM,
 a CPU load monitor and the GNU-software runtime of Genode called Noux.
 
-{% include youtube.html id=QeBvog_ZoXM %}
+{% include youtube.html id="QeBvog_ZoXM" %}
 
 The window that is initially focussed is the CLI monitor of Genode with which I
 started all the other subsystems by command. Next the focus switches to the
