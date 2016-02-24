@@ -85,7 +85,7 @@ As a next step, I wanted to add some real input to my scenario. I found that
 the `libports / run / eglgears.run` demo might provide a good setup. It’s small
 and creates dynamic frame-buffer output. So, I integrated the essentials of
 that setup into my `avconv.run` script. Next, I placed the frame-buffer
-interception component, that I wrote last week, in front of the Framebuffer
+splitter component, that I wrote last week, in front of the Framebuffer
 driver to multiplex the Framebuffer service between Nitpicker and *avconv*.
 
 After that, I was able to read the real Screeninfo in my *avconv* IOCTLs by

@@ -103,10 +103,10 @@ be an action movie. The bottleneck was obvious as I still recorded
 software-rendered 3D in Qemu. So, now was the time for my Desktop Genode, the
 so-called Turmvilla scenario. Moving my components and configuration to
 Turmvilla was a little bit more tricky than I thought. First, the Intel FB
-driver had a problem with my FB interception component. A friend gave me a good
+driver had a problem with my FB splitter component. A friend gave me a good
 hint to use the VESA driver instead and it worked indeed. For now I can live
-with the smaller feature set of this driver but if I ever feel the desire to
-record multiple screens, I have to fix that.
+with the smaller feature set of this driver but in the long term I have to fix
+that.
 
 Second, I wanted *avconv* to run on a dedicated CPU to assure a constant frame
 rate even when recording a scenario with heavy work load. This worked out of
@@ -135,7 +135,7 @@ to a file.
 			<child name="rump_fs"/>
 		</service>
 		<service name="Framebuffer" label="screencast -> avconv">
-			<child name="fb_intercept"/>
+			<child name="fb_splitter"/>
 		</service>
 		<service name="LOG" label="screencast -> avconv">
 			<child name="log"/>
