@@ -1,2 +1,4 @@
-gem 'jemoji'
-gem 'github-pages'
+source 'https://rubygems.org'
+
+gem 'jemoji'       # Emoticon detection
+gem 'github-pages' # Support hosting via Github
